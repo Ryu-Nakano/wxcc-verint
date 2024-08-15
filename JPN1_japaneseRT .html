@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html dir="rtl">
+
+<head>
+    <script>
+
+        function startListener() {
+
+            const registrationMsg = "{\r\n"
+                + "    \"register\":{\r\n"
+                + "        \"requestId\": \"022634c1-c6ad-49ad-a071-1781529b3cc1\",\r\n"
+                + "        \"filterId\": \"6e288781-502c-b3ea-b882f88123fe\",\r\n"
+                + "        \"notificationType\": \"rtsaWords\"\r\n"
+                + "    }\r\n"
+                + "}";
+
+            const rtsaSocket = new WebSocket(
+                "wss://jpn1.verint.live/api/recording/analytics",
+            );
+
+            rtsaSocket.onopen = (event) => {
+                rtsaSocket.send(registrationMsg);
+            };
+
+            rtsaSocket.onmessage = (event) => {
+                console.log(event.data);
+
+                if (!event.data.includes("rtsaWords")) {
+                    return;
+                }
+
+                const msg = JSON.parse(event.data);
+
+                if (msg && msg.rtsaWords && msg.rtsaWords.transcript) {
+
+                    var msgStyled = "<span style=\"color:";
+                    msgStyled += (msg.rtsaWords.channel == "Customer") ? "green" : "blue";
+                    msgStyled +=  "\">" + msg.rtsaWords.channel+ ": " + msg.rtsaWords.transcript + "</span><br>";
+
+                    console.log(msgStyled );
+
+                    document.getElementById('transcriptDiv').insertAdjacentHTML("beforeend", msgStyled);
+                        //.insertAdjacentHTML("beforeend", msg.rtsaWords.channel 
+                        //+ ": " + msg.rtsaWords.transcript + "<br>");
+                        //+ ": " + msgStyled + "<br>");
+                    window.scrollTo(0,document.body.scrollHeight);
+                }
+            };
+
+            rtsaSocket.onclose = (event) => {
+                console.log("onclose " + event);
+            };
+
+            rtsaSocket.onerror = (event) => {
+                console.log("onerror " + event);
+            };
+
+        }
+    </script>
+
+</head>
+
+<body onload="startListener()">
+    <div id="transcriptDiv"></div>
+</body>
+
+
+</html>
