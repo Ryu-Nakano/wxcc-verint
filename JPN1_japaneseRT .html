@@ -33,8 +33,8 @@
 
                 if (msg && msg.rtsaWords && msg.rtsaWords.transcript) {
 
-                    var msgStyled = "<span style=\"color:";
-                    msgStyled += (msg.rtsaWords.channel == "Customer") ? "green" : "blue";
+                    var msgStyled = "<span style=\"";
+                    msgStyled += (msg.rtsaWords.channel == "Customer") ? "color:green; background:white; text-align:left" : "color:blue; background:gray; text-align:right";
                     msgStyled +=  "\">" + msg.rtsaWords.channel+ ": " + msg.rtsaWords.transcript + "</span><br>";
 
                     console.log(msgStyled );
