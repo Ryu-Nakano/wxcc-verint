@@ -28,21 +28,20 @@
                 if (!event.data.includes("rtsaWords")) {
                     return;
                 }
-
+                
                 const msg = JSON.parse(event.data);
 
                 if (msg && msg.rtsaWords && msg.rtsaWords.transcript) {
 
-                    var msgStyled = "<span style=\"";
-                    msgStyled += (msg.rtsaWords.channel == "Customer") ? "color:green; background:white; text-align:left" : "color:blue; background:gray; text-align:right";
-                    msgStyled +=  "\">" + msg.rtsaWords.channel+ ": " + msg.rtsaWords.transcript + "</span><br>";
+                    var msgStyled = "<div style=\"";
+                    msgStyled += (chl == "Customer") ? "color:#333333; background:#FFFFFF; text-align:left" : "color:#666666; background:#F5F5F5; text-align:right";
+                    msgStyled +=  "\">";
+                    msgStyled += (chl == "Customer") ? msg.rtsaWords.channel + ":" + msg.rtsaWords.transcript : msg.rtsaWords.transcript + ":" + msg.rtsaWords.channel;
+                    msgStyled +=  "</div>";
 
                     console.log(msgStyled );
 
                     document.getElementById('transcriptDiv').insertAdjacentHTML("beforeend", msgStyled);
-                        //.insertAdjacentHTML("beforeend", msg.rtsaWords.channel 
-                        //+ ": " + msg.rtsaWords.transcript + "<br>");
-                        //+ ": " + msgStyled + "<br>");
                     window.scrollTo(0,document.body.scrollHeight);
                 }
             };
