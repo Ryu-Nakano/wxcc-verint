@@ -32,11 +32,13 @@
                 const msg = JSON.parse(event.data);
 
                 if (msg && msg.rtsaWords && msg.rtsaWords.transcript) {
+                    const chl = msg.rtsaWords.channel;
+                    const trpt = msg.rtsaWords.transcript;
 
                     var msgStyled = "<div style=\"";
-                    msgStyled += (chl == "Customer") ? "color:#333333; background:#FFFFFF; text-align:left" : "color:#666666; background:#F5F5F5; text-align:right";
+                    msgStyled += (chl == "Customer") ? "color:#8AAB02; background:#FFFFFF; text-align:left" : "color:#0c99c9; background:#F5F5F5; text-align:right";
                     msgStyled +=  "\">";
-                    msgStyled += (chl == "Customer") ? msg.rtsaWords.channel + ":" + msg.rtsaWords.transcript : msg.rtsaWords.transcript + ":" + msg.rtsaWords.channel;
+                    msgStyled += (chl == "Customer") ? trpt + ": <img src='Cus.jpg' height = 30px> "  : "<img src='Agent.jpg' height = 30px>:" + trpt ;
                     msgStyled +=  "</div>";
 
                     console.log(msgStyled );
